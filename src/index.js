@@ -4,9 +4,16 @@ import './index.css';
 import App from './app/layout/App';
 import * as serviceWorker from './serviceWorker';
 
+import { BrowserRouter as Router } from 'react-router-dom';
+
 const rootEl = document.getElementById('root');
 let render = () => {
-  ReactDOM.render(<App />, rootEl);
+  ReactDOM.render(
+    <Router>
+      <App />
+    </Router>,
+    rootEl
+  );
 }
 
 // hot module reload 
