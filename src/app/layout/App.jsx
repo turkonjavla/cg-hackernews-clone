@@ -9,6 +9,7 @@ import CSSBaseline from '@material-ui/core/CssBaseline/';
 /* Components */
 import ArticleDashboard from '../../features/article/ArticleDashboard/ArticleDashboard';
 import NavBar from '../../features/nav/NavBar/NavBar';
+import TestComponent from '../../features/testarea/TestComponent';
 
 const App = () => {
   return (
@@ -16,7 +17,8 @@ const App = () => {
       <CSSBaseline />
       <NavBar />
       <Switch>
-        <Route path="/" component={ArticleDashboard} />
+        <Route exact path="/" component={ArticleDashboard} />
+        <Route exact path="/test" component={TestComponent} />
       </Switch>
     </div>
   );
