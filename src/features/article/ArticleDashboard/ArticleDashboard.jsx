@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 /* MUI Components */
 import withStyles from '@material-ui/core/styles/withStyles';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 /* Components */
@@ -24,6 +24,9 @@ const styles = theme => ({
 });
 
 class ArticleDashboard extends Component {
+  state = {
+    searchQuery: ''
+  }
 
   componentDidMount() {
     this.props.loadArticles();
@@ -31,21 +34,30 @@ class ArticleDashboard extends Component {
 
   refreshData = () => {
     this.props.loadArticles();
+    this.setState({
+      searchQuery: ''
+    })
+  }
+
+  // store data from search filed in state
+  handleInputChange = e => {
+    this.setState({
+      searchQuery: e.target.value
+    })
   }
 
   render() {
     const { classes, loading, articles } = this.props;
+    const { searchQuery } = this.state;
 
     if (loading) return <LoadingComponent />
 
     return (
       <Container maxWidth="lg">
         <TextField
-          id="outlined-search"
           label="Search front page stories"
-          className={classes.textField}
-          // value={values.search}
-          // onChange={handleChange('search')}
+          name="searchQuery"
+          onKeyUp={this.handleInputChange}
           margin="normal"
           variant="outlined"
           fullWidth
@@ -59,7 +71,10 @@ class ArticleDashboard extends Component {
           >
             Refresh Data
           </Button>
-          <ArticleList articles={articles} />
+          <ArticleList
+            articles={articles}
+            searchQuery={searchQuery}
+          />
         </Grid>
       </Container>
     )
