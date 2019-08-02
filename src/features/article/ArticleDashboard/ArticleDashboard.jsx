@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 /* MUI Components */
 import withStyles from '@material-ui/core/styles/withStyles';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
 /* Components */
 import ArticleList from '../ArticleList/ArticleList';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+
+/* Actions */
+import { loadArticles } from '../articleActions';
 
 const styles = theme => ({
   mainGrid: {
@@ -17,8 +24,20 @@ const styles = theme => ({
 });
 
 class ArticleDashboard extends Component {
+
+  componentDidMount() {
+    this.props.loadArticles();
+  }
+
+  refreshData = () => {
+    this.props.loadArticles();
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, loading, articles } = this.props;
+
+    if (loading) return <LoadingComponent />
+
     return (
       <Container maxWidth="lg">
         <TextField
@@ -32,7 +51,15 @@ class ArticleDashboard extends Component {
           fullWidth
         />
         <Grid container spacing={4} className={classes.mainGrid}>
-          <ArticleList />
+          <Button
+            onClick={this.refreshData}
+            disabled={loading}
+            fullWidth
+            variant="outlined"
+          >
+            Refresh Data
+          </Button>
+          <ArticleList articles={articles} />
         </Grid>
       </Container>
     )
@@ -40,7 +67,21 @@ class ArticleDashboard extends Component {
 }
 
 ArticleDashboard.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  articles: PropTypes.array
 }
 
-export default withStyles(styles)(ArticleDashboard);
+const mapStateToProps = state => ({
+  loading: state.async.loading,
+  articles: state.articles.hits
+});
+
+const actions = {
+  loadArticles
+}
+
+export default compose(
+  connect(mapStateToProps, actions),
+  withStyles(styles)
+)(ArticleDashboard);
