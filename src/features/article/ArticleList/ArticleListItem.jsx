@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import moment from 'moment';
 
 /* MUI Components */
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -21,27 +23,27 @@ const styles = theme => ({
   }
 })
 
-const ArticleListItem = ({ classes }) => {
+const ArticleListItem = ({ classes, article }) => {
   return (
-    <Grid item xs={12} md={6}>
+    <Grid item xs={12} md={12}>
       <Card className={classes.card}>
         <div className={classes.cardDetails}>
           <CardContent>
-            <Typography component="h2" variant="h5">
-              Title
+            <Typography component="h2" variant="h6">
+              {article.title}
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              date
+              {moment(article.created_at).fromNow()}
             </Typography>
             <Typography color="primary" variant="body1">
-              Posted by name
+              Posted by {article.author}
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              18 comments | 238 points
+              {article.num_comments || 0} comments | {article.points || 0} points
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" color="primary">
+            <Button component='a' href={article.url} size="small" color="primary">
               Go to article
             </Button>
           </CardActions>
@@ -49,6 +51,11 @@ const ArticleListItem = ({ classes }) => {
       </Card>
     </Grid>
   )
+}
+
+ArticleListItem.propTypes = {
+  classes: PropTypes.object.isRequired,
+  article: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(ArticleListItem)
