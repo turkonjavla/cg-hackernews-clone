@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_ARTICLES } from './articleConstants';
+import { FETCH_ARTICLES, SET_SORT } from './articleConstants';
 import {
   asyncActionStart,
   asyncActionFinish,
@@ -13,7 +13,7 @@ const delay = ms => {
 export const fetchArticles = articles => {
   return {
     type: FETCH_ARTICLES,
-    payload: { articles }
+    payload: articles
   }
 }
 
@@ -28,6 +28,32 @@ export const loadArticles = () => {
       const articles = await res.data;
 
       dispatch(fetchArticles(articles))
+      dispatch(asyncActionFinish());
+    }
+    catch (error) {
+      dispatch(asyncActionError());
+      console.error(`There was an error, ${error.message}`);
+    }
+  }
+}
+
+// sorting
+const setSort = (sortDirection, sortKey) => {
+  return {
+    type: SET_SORT,
+    payload: {
+      sortDirection,
+      sortKey
+    }
+  }
+}
+
+export const sort = (sortDirection = 'desc', sortKey = 'created_at') => {
+  return async dispatch => {
+    try {
+      dispatch(asyncActionStart());
+      await delay(300);
+      dispatch(setSort(sortDirection, sortKey));
       dispatch(asyncActionFinish());
     }
     catch (error) {

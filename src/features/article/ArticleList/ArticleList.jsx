@@ -11,7 +11,8 @@ const ArticleList = ({ articles, searchQuery }) => {
     <React.Fragment>
       {
         articles && articles
-        // filter articles stored in state based on searchQuery
+          // filter articles stored in state based on searchQuery
+          .slice()
           .filter(article => {
             return article.title.toLowerCase().indexOf(searchQuery.toLowerCase()) >= 0
           })
