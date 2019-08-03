@@ -19,7 +19,7 @@ import ArticleList from '../ArticleList/ArticleList';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 /* Actions */
-import { loadArticles, sort } from '../articleActions';
+import { loadArticles, sort, searchArticles } from '../articleActions';
 
 /* Selectors */
 import { getSortedArticlesSelector } from '../articleSelector';
@@ -45,31 +45,33 @@ class ArticleDashboard extends Component {
     sortDirection: ''
   }
 
+  // fetch articles on page load
   componentDidMount() {
     this.props.loadArticles();
   }
 
+  // fetch new articles
   refreshData = () => {
     this.props.loadArticles();
-    this.setState({
-      searchQuery: ''
-    })
   }
 
   // store data from search filed in state
   handleInputChange = e => {
     this.setState({
       searchQuery: e.target.value
-    })
+    });
+  }
+
+  // search articles
+  handleSearchArticles = () => {
+    const { searchQuery } = this.state;
+    this.props.searchArticles(searchQuery);
   }
 
   // sorting by date
   handleSortClick = () => {
     const { sortDirection, sortKey } = this.state;
     this.props.sort(sortDirection, sortKey);
-    this.setState({
-      searchQuery: ''
-    })
   }
 
   handleKeyChange = (e) => {
@@ -86,19 +88,21 @@ class ArticleDashboard extends Component {
 
   render() {
     const { classes, loading, articles } = this.props;
-    const { searchQuery, sortKey, sortDirection } = this.state;
+    const { sortKey, sortDirection, searchQuery } = this.state;
 
     if (loading) return <LoadingComponent />
 
     return (
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <Grid container>
 
           {/* search field */}
           <TextField
             label="Search front page stories"
             name="searchQuery"
-            onKeyUp={this.handleInputChange}
+            value={searchQuery}
+            onChange={this.handleInputChange}
+            onKeyUp={this.handleSearchArticles}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -156,7 +160,6 @@ class ArticleDashboard extends Component {
           </Grid>
           <ArticleList
             articles={articles}
-            searchQuery={searchQuery}
           />
         </Grid>
       </Container >
@@ -169,7 +172,9 @@ ArticleDashboard.propTypes = {
   loading: PropTypes.bool.isRequired,
   articles: PropTypes.array,
   loadArticles: PropTypes.func.isRequired,
-  sort: PropTypes.func.isRequired
+  sort: PropTypes.func.isRequired,
+  searchArticles: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string
 }
 
 const mapStateToProps = state => ({
@@ -181,7 +186,8 @@ const mapStateToProps = state => ({
 
 const actions = {
   loadArticles,
-  sort
+  sort,
+  searchArticles
 }
 
 export default compose(

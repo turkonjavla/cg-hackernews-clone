@@ -6,16 +6,11 @@ import PropTypes from 'prop-types';
 /* Components */
 import ArticleListItem from './ArticleListItem';
 
-const ArticleList = ({ articles, searchQuery }) => {
+const ArticleList = ({ articles }) => {
   return (
     <React.Fragment>
       {
         articles && articles
-          // filter articles stored in state based on searchQuery
-          .slice()
-          .filter(article => {
-            return article.title.toLowerCase().indexOf(searchQuery.toLowerCase()) >= 0
-          })
           .map(article => (
             <ArticleListItem
               key={article.objectID}
@@ -28,8 +23,7 @@ const ArticleList = ({ articles, searchQuery }) => {
 }
 
 ArticleList.propTypes = {
-  articles: PropTypes.array,
-  searchQuery: PropTypes.string
+  articles: PropTypes.array
 }
 
 export default ArticleList;
