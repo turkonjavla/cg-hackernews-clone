@@ -43,7 +43,7 @@ const ArticleListItem = ({ classes, article }) => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button component='a' href={article.url} size="small" color="primary">
+            <Button component='a' href={article.url} target="_blank" size="small" color="primary">
               Go to article
             </Button>
           </CardActions>

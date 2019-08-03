@@ -14,37 +14,61 @@ export const getSortedArticlesSelector = createSelector(
   (articles, sortKey, sortDirection, searchQuery) => {
     /* date sorting with search filter*/
     if (sortKey === 'created_at' && sortDirection === 'asc') {
-      return articles
-        .slice()
-        .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
-        .filter(article => article.title.toLowerCase().match(searchQuery.toLowerCase()))
+      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.lenmgth === 0) {
+        return articles
+          .slice()
+          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+      } else {
+        return articles
+          .slice()
+          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+          .filter(article => article.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      }
     }
     else if (sortKey === 'created_at' && sortDirection === 'desc') {
-      return articles
-        .slice()
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .filter(article => article.title.toLowerCase().match(searchQuery.toLowerCase()))
+      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.lenmgth === 0) {
+        return articles
+          .slice()
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      }
+      else {
+        return articles
+          .slice()
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .filter(article => article.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      }
     }
 
     /* alphabetical sorting with search filter*/
     else if (sortKey === 'title' && sortDirection === 'asc') {
-      return articles
-        .slice()
-        .sort((a, b) => a.title.toLowerCase() < b.title.toLowerCase())
-        .filter(article => article.title.toLowerCase().match(searchQuery.toLowerCase()))
+      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.lenmgth === 0) {
+        return articles
+          .slice()
+          .sort((a, b) => a.title.toLowerCase() < b.title.toLowerCase())
+      }
+      else {
+        return articles
+          .slice()
+          .sort((a, b) => a.title.toLowerCase() < b.title.toLowerCase())
+          .filter(article => article.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      }
     }
     else if (sortKey === 'title' && sortDirection === 'desc') {
-      return articles
-        .slice()
-        .sort((a, b) => b.title.toLowerCase() < a.title.toLowerCase())
-        .filter(article => article.title.toLowerCase().match(searchQuery.toLowerCase()))
+      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.lenmgth === 0) {
+        return articles
+          .slice()
+          .sort((a, b) => b.title.toLowerCase() < a.title.toLowerCase())
+      }
+      else {
+        return articles
+          .slice()
+          .sort((a, b) => b.title.toLowerCase() < a.title.toLowerCase())
+          .filter(article => article.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      }
     }
     else if (searchQuery) {
       return articles
-        .filter(article => article.title.toLowerCase().match(searchQuery.toLowerCase()))
-    }
-    else if (searchQuery === null || searchQuery === undefined || searchQuery === '') {
-      return articles;
+        .filter(article => article.title.toLowerCase().includes(searchQuery.toLowerCase()))
     }
     else {
       return articles;
