@@ -20,7 +20,7 @@ git clone https://github.com/turkonjavla/cg-hackernews-clone.git
 ```
 
 ```
-cd casino-grounds-hackernews-clone
+cd cg-hackernews-clone
 ```
 
 ```
