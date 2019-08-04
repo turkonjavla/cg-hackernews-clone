@@ -14,7 +14,7 @@ export const getSortedArticlesSelector = createSelector(
   (articles, sortKey, sortDirection, searchQuery) => {
     /* date sorting with search filter*/
     if (sortKey === 'created_at' && sortDirection === 'asc') {
-      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.lenmgth === 0) {
+      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.length === 0) {
         return articles
           .slice()
           .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
@@ -26,7 +26,7 @@ export const getSortedArticlesSelector = createSelector(
       }
     }
     else if (sortKey === 'created_at' && sortDirection === 'desc') {
-      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.lenmgth === 0) {
+      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.length === 0) {
         return articles
           .slice()
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
@@ -41,7 +41,7 @@ export const getSortedArticlesSelector = createSelector(
 
     /* alphabetical sorting with search filter*/
     else if (sortKey === 'title' && sortDirection === 'asc') {
-      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.lenmgth === 0) {
+      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.length === 0) {
         return articles
           .slice()
           .sort((a, b) => a.title.toLowerCase() < b.title.toLowerCase())
@@ -54,7 +54,7 @@ export const getSortedArticlesSelector = createSelector(
       }
     }
     else if (sortKey === 'title' && sortDirection === 'desc') {
-      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.lenmgth === 0) {
+      if (searchQuery === null || searchQuery === undefined || searchQuery === '' || searchQuery.length === 0) {
         return articles
           .slice()
           .sort((a, b) => b.title.toLowerCase() < a.title.toLowerCase())
